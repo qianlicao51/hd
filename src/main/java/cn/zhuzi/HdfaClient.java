@@ -22,7 +22,7 @@ import org.junit.Test;
 
 /**
  * @author 作者 grq
- * @version 创建时间：2018年6月28日 下午4:03:00
+ * @version 创建时间： 2018年6月28日 下午4:03:00
  *
  */
 public class HdfaClient {
