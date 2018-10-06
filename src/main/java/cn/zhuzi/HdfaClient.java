@@ -32,7 +32,7 @@ public class HdfaClient {
 	@Before
 	public void before() throws IOException, InterruptedException, URISyntaxException {
 		Configuration conf = new Configuration();
-		fs = FileSystem.get(new URI("hdfs://ym2:9000"), conf, "grq");
+		fs = FileSystem.get(new URI("hdfs://hadoop102:9000"), conf, "grq");
 
 	}
 
