@@ -1,7 +1,6 @@
 package cn.zhuzi.kafka;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -11,12 +10,12 @@ public class CustomProducer {
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		Properties props = new Properties();
 		// Kafka服务端的主机名和端口号
-		props.put("bootstrap.servers", "127.0.0.1:9092");
+		props.put("bootstrap.servers", "hadoop101:9092");
 		// 等待所有副本节点的应答
 		props.put("acks", "all");
 		// 消息发送最大尝试次数
 		props.put("retries", 0);
-		// 一批消息处理大小
+		// 消息处理大小 16kb
 		props.put("batch.size", 16384);
 		// 请求延时
 		props.put("linger.ms", 1);
@@ -29,11 +28,8 @@ public class CustomProducer {
 
 		KafkaProducer<String, String> producer = new KafkaProducer<>(props);
 		for (int i = 0; i < 50; i++) {
-			producer.send(new ProducerRecord<String, String>("kindlebook", Integer.toString(i), new String(("hello world-" + i).getBytes("UTF-8"),"gbk")));
+			producer.send(new ProducerRecord<String, String>("kindlebook", Integer.toString(i), "hello world-中国" + i));
 		}
-
 		producer.close();
-		
-		System.out.println(Charset.defaultCharset());
 	}
 }

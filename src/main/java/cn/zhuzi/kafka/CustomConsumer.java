@@ -12,7 +12,7 @@ public class CustomConsumer {
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		Properties props = new Properties();
 		// 定义kakfa 服务的地址，不需要将所有broker指定上 
-		props.put("bootstrap.servers", "127.0.0.1:9092");
+		props.put("bootstrap.servers", "hadoop101:9092");
 		// 制定consumer group 
 		props.put("group.id", "g1");
 		// 是否自动确认offset 
