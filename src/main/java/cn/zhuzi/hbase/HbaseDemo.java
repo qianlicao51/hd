@@ -45,6 +45,7 @@ public class HbaseDemo {
 		// 在Hbase中管理、访问表需要先创建 hbaseadmin对象
 		@SuppressWarnings("resource")
 		HBaseAdmin admin = new HBaseAdmin(conf);
+		
 		return admin.tableExists(tableName);
 
 	}
