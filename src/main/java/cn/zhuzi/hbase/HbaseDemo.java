@@ -2,18 +2,25 @@ package cn.zhuzi.hbase;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.CellUtil;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
+import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
@@ -114,14 +121,54 @@ public class HbaseDemo {
 		hTable.close();
 	}
 
+	/**
+	 * 删除多行数据
+	 * 
+	 * @param tableName
+	 * @param rows
+	 * @throws IOException
+	 */
+	public static void delMulitRow(String tableName, String... rows) throws IOException {
+		HTable hTable = new HTable(conf, tableName);
+		List<Delete> list = new ArrayList<Delete>();
+		for (String row : rows) {
+			Delete delete = new Delete(Bytes.toBytes(row));
+			list.add(delete);
+		}
+		hTable.delete(list);
+		// hTable.close();//Session: 0x166b3b162b8003c closed没主动关闭，也打印显示关闭
+
+	}
+
+	public static void getAllRows(String tableName) throws IOException {
+		HTable hTable = new HTable(conf, tableName);
+		// 得到用于扫描region的对象
+		Scan scan = new Scan();
+		// 使用htable得到实现类对象
+		ResultScanner resultScanner = hTable.getScanner(scan);
+		for (Result result : resultScanner) {
+			List<org.apache.hadoop.hbase.Cell> cells = result.listCells();
+			for (Cell cell : cells) {
+				// 得到 rowkey
+				System.out.print(Bytes.toString(CellUtil.cloneRow(cell)) + ">");
+				System.out.print(Bytes.toString(CellUtil.cloneFamily(cell)) + ">");
+				System.out.print(Bytes.toString(CellUtil.cloneValue(cell)));
+				System.out.println();
+			}
+		}
+
+	}
+
 	public static void main(String[] args) throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
 		boolean tableExists = isTableExists("stu");
 		// System.out.println("HbaseDemo.main()" + tableExists);
 		// createTable("person", "base_info", "job", "heathy");
 		// dropTable("pser");
-		addRowData("person", "001", "base_info", "name", "dou");
-		addRowData("person", "001", "base_info", "age", "25");
-		addRowData("person", "001", "base_info", "sex", "Male");
-		addRowData("person", "001", "job", "dept_no", "51");
+		// addRowData("person", "001", "base_info", "name", "dou");
+		// addRowData("person", "001", "base_info", "age", "25");
+		// addRowData("person", "001", "base_info", "sex", "Male");
+		// addRowData("person", "001", "job", "dept_no", "51");
+		// delMulitRow("person", "001");
+		getAllRows("person");
 	}
 }
