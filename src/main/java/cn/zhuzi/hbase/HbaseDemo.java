@@ -1,7 +1,6 @@
 package cn.zhuzi.hbase;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
