@@ -161,7 +161,7 @@ public class HbaseDemo {
 	public static void main(String[] args) throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
 		boolean tableExists = isTableExists("stu");
 		// System.out.println("HbaseDemo.main()" + tableExists);
-		 createTable("fruits_mr", "info");
+		 createTable("fruits_hdfs", "info");
 		// dropTable("pser");
 		// addRowData("person", "001", "base_info", "name", "dou");
 		// addRowData("person", "001", "base_info", "age", "25");
