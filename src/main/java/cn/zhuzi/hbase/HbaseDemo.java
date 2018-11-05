@@ -161,13 +161,13 @@ public class HbaseDemo {
 	public static void main(String[] args) throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
 		boolean tableExists = isTableExists("stu");
 		// System.out.println("HbaseDemo.main()" + tableExists);
-		// createTable("person", "base_info", "job", "heathy");
+		 createTable("fruits_mr", "info");
 		// dropTable("pser");
 		// addRowData("person", "001", "base_info", "name", "dou");
 		// addRowData("person", "001", "base_info", "age", "25");
 		// addRowData("person", "001", "base_info", "sex", "Male");
 		// addRowData("person", "001", "job", "dept_no", "51");
 		// delMulitRow("person", "001");
-		getAllRows("person");
+//		getAllRows("person");
 	}
 }

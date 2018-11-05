@@ -8,15 +8,28 @@
 		<hadoop.verison>2.7.4</hadoop.verison>
 		<hive.verison>2.3.3</hive.verison>
 		<hbase.version>0.98.6.1-hadoop2</hbase.version>
+		<fastjson.version>1.2.46</fastjson.version>
 	</properties>
 	<dependencies>
+
+		<!-- 工具类 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<!-- 工具类/end -->
 		<!-- hdfs core common -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-hdfs</artifactId>
 			<version>${hadoop.verison}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
