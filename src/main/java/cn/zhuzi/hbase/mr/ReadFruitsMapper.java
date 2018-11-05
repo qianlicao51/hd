@@ -43,7 +43,5 @@ public class ReadFruitsMapper extends TableMapper<ImmutableBytesWritable, Put> {
 		}
 		// 将fruit读取到每行数据写入到context 中 作为map输出
 		context.write(key, put);
-
 	}
-
 }

@@ -28,5 +28,4 @@ public class WriteFruitsMRreducer extends TableReducer<ImmutableBytesWritable, P
 			System.out.println();
 		}
 	}
-
 }
