@@ -167,7 +167,7 @@ public class HbaseDemo {
 		// addRowData("person", "001", "base_info", "age", "25");
 		// addRowData("person", "001", "base_info", "sex", "Male");
 		// addRowData("person", "001", "job", "dept_no", "51");
-		// delMulitRow("person", "001");
+		 delMulitRow("person", "001");
 //		getAllRows("person");
 	}
 }
