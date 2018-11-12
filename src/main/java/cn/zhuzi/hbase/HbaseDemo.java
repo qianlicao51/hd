@@ -171,4 +171,8 @@ public class HbaseDemo {
 		delMulitRow("person", "001");
 		// getAllRows("person");
 	}
+
+	/**
+	 * 添加数据
+	 */
 }
