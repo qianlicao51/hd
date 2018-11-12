@@ -44,10 +44,12 @@ public class HbaseDemo {
 		// conf.set("hbase.zookeeper.quorum", "master,work1,work2");//
 		// zookeeper地址
 		conf.set("hbase.zookeeper.property.clientPort", "2181");// zookeeper端口
+
+		// TODO 实际操作中下面这个没设置，hbase是如何找到hadoop的？
+		// conf.set("hbase.rootdir", "hdfs://ncst:9000/hbase");
 		try {
 			admin = new HBaseAdmin(conf);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -155,19 +157,18 @@ public class HbaseDemo {
 				System.out.println();
 			}
 		}
-
 	}
 
 	public static void main(String[] args) throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
 		boolean tableExists = isTableExists("stu");
 		// System.out.println("HbaseDemo.main()" + tableExists);
-		 createTable("fruits_hdfs", "info");
+		createTable("fruits_hdfs", "info");
 		// dropTable("pser");
 		// addRowData("person", "001", "base_info", "name", "dou");
 		// addRowData("person", "001", "base_info", "age", "25");
 		// addRowData("person", "001", "base_info", "sex", "Male");
 		// addRowData("person", "001", "job", "dept_no", "51");
-		 delMulitRow("person", "001");
-//		getAllRows("person");
+		delMulitRow("person", "001");
+		// getAllRows("person");
 	}
 }
