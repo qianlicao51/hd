@@ -1,21 +1,18 @@
 package cn.zhuzi.spark;
 
-import java.util.Arrays;
-
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 
 /**
- * @Title: SparkDemo.java
+ * @Title: SparkFun.java向spark传递函数
  * @Package cn.zhuzi.spark
- * @Description: TODO(用一句话描述该文件做什么)
+ * @Description: TODO(向spark传递函数 )
  * @author 作者 grq
- * @version 创建时间：2018年11月15日 下午2:20:09
- *
+ * @version 创建时间：2018年11月15日 下午7:07:57 向spark传递函数
  */
-public class SparkDemo {
+public class SparkFun {
 	static String base_path = "E:/had/spark/";
 	static String readmeFile = "README.md";
 	static SparkConf conf;
@@ -37,31 +34,51 @@ public class SparkDemo {
 		sc = new JavaSparkContext(conf);
 	}
 
-	public static void main(String[] args) {
-		JavaRDD<String> textFile = sc.textFile(base_path + readmeFile);
+	/**
+	 * Java中使用匿名内部类进行函数传递
+	 */
+	public static void fun1() {
+		JavaRDD<String> textFile = sc.textFile(base_path);
 		JavaRDD<String> filter = textFile.filter(new Function<String, Boolean>() {
 			@Override
 			public Boolean call(String v1) throws Exception {
 				return v1.contains("Python");
 			}
 		});
-		System.out.println("-------------------------------");
-		long count = textFile.count();
-		System.out.println("行数是：" + count);
-
-		System.out.println("-----------" + filter.first());
-		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("shuai", "feng"));
-
-		closeContext();
 	}
 
 	/**
-	 * 关闭spark
+	 * 在Java8中使用lamdba表达式进行函数传递
 	 */
-	public static void closeContext() {
-		sc.close();
-		// 或者
-		System.exit(0);
+	public static void fun3() {
+		JavaRDD<String> lines = sc.textFile(base_path);
+		lines.filter(s -> s.contains("Python"));
+	}
+
+	/**
+	 * 在Java中使用具名类进行函数传递
+	 * <p/>
+	 * 顶级具名类通常在组织大型程序时显得比较清晰，使用顶级函数的另一个好处是 可以给他们的构造函数添加参数
+	 */
+	public static void fun2() {
+
+		JavaRDD<String> lines = sc.textFile(base_path);
+		JavaRDD<String> filter = lines.filter(new ContainsStr("Python"));
+	}
+
+}
+
+class ContainsStr implements Function<String, Boolean> {
+	private String query;
+
+	public ContainsStr(String query) {
+		this.query = query;
+	}
+
+	@Override
+	public Boolean call(String v1) throws Exception {
+
+		return v1.contains(query);
 	}
 
 }
