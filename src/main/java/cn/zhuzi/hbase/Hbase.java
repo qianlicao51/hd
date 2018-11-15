@@ -7,12 +7,10 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HTable;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException;
+import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.filter.BinaryComparator;
+import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
+import org.apache.hadoop.hbase.filter.RowFilter;
 import org.apache.hadoop.hbase.util.Bytes;
 
 /**
@@ -53,6 +51,27 @@ public class Hbase {
 	public static void main(String[] args) throws IOException {
 		putData();
 		// getData();
+		filterDemo();
+	}
+
+	/**
+	 * 过滤器类挑选特定的行
+	 * 
+	 * @throws IOException
+	 */
+	public static void filterDemo() throws IOException {
+		HTable hTable = new HTable(conf, "fruit");
+		Scan scan = new Scan();
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("qua"));
+		RowFilter rowFilter = new RowFilter(CompareOp.LESS_OR_EQUAL, new BinaryComparator(Bytes.toBytes("row1")));
+
+		scan.setFilter(rowFilter);
+		ResultScanner scanner = hTable.getScanner(scan);
+		for (Result result : scanner) {
+			System.out.println(result);
+		}
+		scanner.close();
+
 	}
 
 	/**
@@ -81,7 +100,7 @@ public class Hbase {
 		// 实例化一个客户端
 		HTable hTable = new HTable(conf, "fruit");
 		// 制定一个行来创建一个put
-		Put put = new Put(Bytes.toBytes("row2"));
+		Put put = new Put(Bytes.toBytes("row3"));
 		// 向put添加一个名为 qua:val1 的列
 		Put add = put.add(Bytes.toBytes("info"), Bytes.toBytes("qua"), Bytes.toBytes("val1"));
 
