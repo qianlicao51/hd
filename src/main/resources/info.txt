@@ -1,0 +1,40 @@
+sing Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+18/11/15 16:29:02 INFO SparkContext: Running Spark version 2.1.1
+18/11/15 16:29:02 INFO SecurityManager: Changing view acls to: grq
+18/11/15 16:29:02 INFO SecurityManager: Changing modify acls to: grq
+18/11/15 16:29:02 INFO SecurityManager: Changing view acls groups to: 
+18/11/15 16:29:02 INFO SecurityManager: Changing modify acls groups to: 
+18/11/15 16:29:02 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(grq); groups with view permissions: Set(); users  with modify permissions: Set(grq); groups with modify permissions: Set()
+18/11/15 16:29:03 INFO Utils: Successfully started service 'sparkDriver' on port 56636.
+18/11/15 16:29:03 INFO SparkEnv: Registering MapOutputTracker
+18/11/15 16:29:03 INFO SparkEnv: Registering BlockManagerMaster
+18/11/15 16:29:03 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/11/15 16:29:03 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/11/15 16:29:03 INFO DiskBlockManager: Created local directory at C:\Users\grq\AppData\Local\Temp\blockmgr-e4617242-f8bd-4109-b488-3ab8833c0c7d
+18/11/15 16:29:03 INFO MemoryStore: MemoryStore started with capacity 819.6 MB
+18/11/15 16:29:03 INFO SparkEnv: Registering OutputCommitCoordinator
+18/11/15 16:29:03 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+18/11/15 16:29:03 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+18/11/15 16:29:03 INFO SparkUI: Bound SparkUI to 0.0.0.0, and started at http://169.254.86.190:4041
+18/11/15 16:29:03 INFO Executor: Starting executor ID driver on host localhost
+18/11/15 16:29:04 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 56645.
+18/11/15 16:29:04 INFO NettyBlockTransferService: Server created on 169.254.86.190:56645
+18/11/15 16:29:04 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/11/15 16:29:04 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 169.254.86.190, 56645, None)
+18/11/15 16:29:04 INFO BlockManagerMasterEndpoint: Registering block manager 169.254.86.190:56645 with 819.6 MB RAM, BlockManagerId(driver, 169.254.86.190, 56645, None)
+18/11/15 16:29:04 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 169.254.86.190, 56645, None)
+18/11/15 16:29:04 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 169.254.86.190, 56645, None)
+18/11/15 16:29:05 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 241.3 KB, free 819.4 MB)
+18/11/15 16:29:05 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 23.4 KB, free 819.3 MB)
+18/11/15 16:29:05 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 169.254.86.190:56645 (size: 23.4 KB, free: 819.6 MB)
+18/11/15 16:29:05 INFO SparkContext: Created broadcast 0 from textFile at Demo.java:41
+18/11/15 16:29:05 INFO SparkContext: Invoking stop() from shutdown hook
+18/11/15 16:29:05 INFO SparkUI: Stopped Spark web UI at http://169.254.86.190:4041
+18/11/15 16:29:05 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/11/15 16:29:05 INFO MemoryStore: MemoryStore cleared
+18/11/15 16:29:05 INFO BlockManager: BlockManager stopped
+18/11/15 16:29:05 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/11/15 16:29:05 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/11/15 16:29:05 INFO SparkContext: Successfully stopped SparkContext
+18/11/15 16:29:05 INFO ShutdownHookManager: Shutdown hook called
+18/11/15 16:29:05 INFO ShutdownHookManager: Deleting directory C:\Users\grq\AppData\Local\Temp\spark-75885130-621f-4574-8e97-0ef09027415b

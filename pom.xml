@@ -84,6 +84,14 @@
 			<version>${spark.version}</version>
 		</dependency>
 		<!-- spark /end -->
+
+		<!-- mybatis为了读取文件使用 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<!-- mybatis /end -->
 	</dependencies>
 
 	<!-- -->

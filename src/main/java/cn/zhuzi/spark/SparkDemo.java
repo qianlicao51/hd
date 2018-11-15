@@ -1,6 +1,7 @@
 package cn.zhuzi.spark;
 
-import org.apache.hadoop.mapreduce.Reducer;
+import java.util.Arrays;
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -38,17 +39,18 @@ public class SparkDemo {
 
 	public static void main(String[] args) {
 		JavaRDD<String> textFile = sc.textFile(base_path + readmeFile);
-		System.out.println("-------------------------------");
-		long count = textFile.count();
-		System.out.println("行数是：" + count);
 		JavaRDD<String> filter = textFile.filter(new Function<String, Boolean>() {
 			@Override
 			public Boolean call(String v1) throws Exception {
 				return v1.contains("Python");
 			}
 		});
+		System.out.println("-------------------------------");
+		long count = textFile.count();
+		System.out.println("行数是：" + count);
 
 		System.out.println("-----------" + filter.first());
+		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("shuai", "feng"));
 
 		closeContext();
 	}
