@@ -1,36 +1,93 @@
 package cn.zhuzi.spark.chart03;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
 
 import cn.zhuzi.spark.SparkUtils;
 
 /**
  * @Title: Demo3calc.java
  * @Package cn.zhuzi.spark
- * @Description: TODO(书第三章 代码实例)
+ * @Description: TODO(书第三章 代码实例，代码尽量能是2份，一份是java7之前，另一份是Java8lamdba)
  * @author 作者 grq
  * @version 创建时间：2018年11月15日 下午9:03:56
  *
  */
 public class Demo3calc {
+	static JavaSparkContext sc = SparkUtils.getContext();
 
 	public static void main(String[] args) {
-		calc();
+		map();
 	}
 
 	/**
-	 * 计算RDD中各值得平方
+	 * map
+	 */
+	public static void map() {
+		JavaRDD<Integer> rdd = sc.parallelize(Arrays.asList(1, 2, 3, 4));
+		JavaRDD<Integer> map = rdd.map(x -> x + 1);
+		System.out.println(map.collect());
+		
+		sc.close();
+	}
+
+	/**
+	 * Java 中的 flatMap() 将行数据切分为单词
+	 */
+	public static void faltMap() {
+		JavaRDD<String> lines = sc.parallelize(Arrays.asList("hello Spark"));
+		JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
+			@Override
+			public Iterator<String> call(String t) throws Exception {
+				return Arrays.asList(t.split(" ")).iterator();
+			}
+		});
+		System.out.println(words.first());// hello
+		System.out.println(words.collect().toString());// [hello, Spark]
+	}
+
+	/**
+	 * Java 中的 flatMap() 将行数据切分为单词 Lamdba版本
+	 */
+	public static void faltMapLamdba() {
+		JavaRDD<String> lines = sc.parallelize(Arrays.asList("hello Spark"));
+		JavaRDD<String> words = lines.flatMap(w -> Arrays.asList(w.split(" ")).iterator());
+		System.out.println(words.first());// hello
+		System.out.println(words.collect().toString());// [hello, Spark]
+
+	}
+
+	/**
+	 * Java 版计算 RDD 中各值的平方
 	 */
 	private static void calc() {
 
+		JavaRDD<Integer> rdd = sc.parallelize(Arrays.asList(1, 2, 3, 4));
+		JavaRDD<Integer> result = rdd.map(new Function<Integer, Integer>() {
+			@Override
+			public Integer call(Integer v1) throws Exception {
+				return v1 * v1;
+			}
+		});
+		System.out.println(StringUtils.join(result.collect(), "  "));
+		sc.close();
+	}
+
+	/**
+	 * Java 版计算 RDD 中各值的平方
+	 */
+	private static void calcLamdba() {
 		JavaSparkContext sc = SparkUtils.getContext();
 		JavaRDD<Integer> rdd = sc.parallelize(Arrays.asList(1, 2, 3, 4));
 		JavaRDD<Integer> result = rdd.map(x -> x * x);
-
 		System.out.println(StringUtils.join(result.collect(), "  "));
+		sc.close();
 	}
+
 }
