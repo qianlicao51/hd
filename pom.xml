@@ -112,7 +112,11 @@
 			<artifactId>spark-streaming_2.11</artifactId>
 			<version>${spark.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-network-shuffle_2.11</artifactId>
+			<version>${spark.version}</version>
+		</dependency>
 		<!-- spark /end -->
 
 		<!-- mybatis为了读取文件使用 -->
@@ -123,6 +127,23 @@
 		</dependency>
 		<!-- mybatis /end -->
 	</dependencies>
+	<!-- kettle中央仓库 -->
+	<repositories>
+		<repository>
+			<id>nexus-aliyun</id>
+			<name>Nexus aliyun</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<!-- kettle中央仓库 /end -->
 
 	<!-- -->
 	<!-- <resources> <resource> <directory>src/main/java</directory> <includes> <include>**/*.xml</include> </includes> </resource> <resource> <directory>src/main/resources</directory> </resource> </resources> -->
