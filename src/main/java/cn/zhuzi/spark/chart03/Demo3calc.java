@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.spark.api.java.JavaDoubleRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.storage.StorageLevel;
 
 import cn.zhuzi.spark.SparkUtils;
 
@@ -23,7 +25,28 @@ public class Demo3calc {
 	static JavaSparkContext sc = SparkUtils.getContext();
 
 	public static void main(String[] args) {
-		map();
+		calcMap();
+	}
+
+	/**
+	 * 两次执行
+	 */
+	private void doucleCalc() {
+		JavaRDD<Integer> lines = sc.parallelize(Arrays.asList(1, 2, 3, 4));
+		JavaRDD<Integer> result = lines.map(x -> x * 5);
+		result.persist(StorageLevel.DISK_ONLY());
+		System.out.println(result.count());
+		System.out.println(StringUtils.join(result.collect(), ","));
+	}
+
+	/*
+	 * 
+	 */
+	public static void calcMap() {
+		JavaRDD<Integer> lines = sc.parallelize(Arrays.asList(1, 2, 3, 4));
+		JavaDoubleRDD mapToDouble = lines.mapToDouble(x -> x * x);
+		System.out.println(mapToDouble.collect());// [1.0, 4.0, 9.0, 16.0]
+		System.out.println(mapToDouble.mean());// 7.5 这个值好像是上面的平均值
 	}
 
 	/**
@@ -33,7 +56,7 @@ public class Demo3calc {
 		JavaRDD<Integer> rdd = sc.parallelize(Arrays.asList(1, 2, 3, 4));
 		JavaRDD<Integer> map = rdd.map(x -> x + 1);
 		System.out.println(map.collect());
-		
+
 		sc.close();
 	}
 
