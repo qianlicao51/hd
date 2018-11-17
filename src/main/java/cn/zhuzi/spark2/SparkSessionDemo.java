@@ -7,6 +7,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RuntimeConfig;
+import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 
 import com.alibaba.fastjson.JSON;
@@ -78,14 +79,14 @@ public class SparkSessionDemo {
 				.option("url", "jdbc:mysql://localhost:3306/life").option("dbtable", "family")// 表名
 				.option("user", "root")// 用户
 				.option("password", "root").load();
-		System.out.println(load.collectAsList());
+		Dataset<Row> df = load.toDF();
 
 	}
 
 	/**
 	 * JDBC连接数据库，将数据库表转换为DataFrame
 	 */
-	public static void loadFormMySQL2() {
+	public static Dataset<Row> loadFormMySQL2() {
 		Properties connprop = new Properties();
 		connprop.put("user", "root");
 		connprop.put("password", "root");
@@ -93,12 +94,32 @@ public class SparkSessionDemo {
 		Dataset<Row> load = sparkSession.read().jdbc("jdbc:mysql://localhost:3306/life", // url
 				"family",// tableName
 				connprop);
-		System.out.println(load.collectAsList());
+		// 创建视图
+		load.createOrReplaceTempView("fam");
+		Dataset<Row> sql = sparkSession.sql("select name,id from fam where id >145");
+		sql.show();
+		return load;
+	}
 
+	/**
+	 * 数据持久化
+	 */
+	public static void saveData() {
+		// 前面获取的数据
+		Dataset<Row> dataset = loadFormMySQL2();
+		// 给定的是文件夹
+		dataset.write().mode(SaveMode.Overwrite).json("c:/1212");
+
+		// 保存到数据库
+		Properties connprop = new Properties();
+		connprop.put("user", "root");
+		connprop.put("password", "root");
+		dataset.write().mode(SaveMode.Overwrite).jdbc("jdbc:mysql://localhost:3306/life", "family_bak", connprop);
 	}
 
 	public static void main(String[] args) throws IOException {
-		loadFormMySQL2();
+		saveData();
+
 	}
 
 	private static void conf() {
