@@ -126,6 +126,11 @@
 			<version>3.4.1</version>
 		</dependency>
 		<!-- mybatis /end -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.8</version>
+		</dependency>
 	</dependencies>
 	<!-- kettle中央仓库 -->
 	<repositories>
