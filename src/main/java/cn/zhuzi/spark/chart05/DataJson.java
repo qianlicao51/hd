@@ -12,8 +12,6 @@ import cn.zhuzi.spark.SparkUtils;
 
 import com.alibaba.fastjson.JSON;
 
-import scala.reflect.internal.Trees.This;
-
 /**
  * @Title: DataJson.java
  * @Package cn.zhuzi.spark.chart05

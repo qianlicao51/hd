@@ -42,6 +42,7 @@ public class SparkDem {
 	public static void infoCount() throws IOException {
 		File asFile = Resources.getResourceAsFile("info.txt");
 		JavaRDD<String> inputRDD = sc.textFile(asFile.getAbsolutePath());
+		inputRDD.cache();
 		JavaRDD<String> infoRDD = inputRDD.filter(new Function<String, Boolean>() {
 			@Override
 			public Boolean call(String x) throws Exception {

@@ -1,15 +1,9 @@
 package cn.zhuzi.spark.chart05;
 
-import org.apache.hadoop.hive.ql.parse.HiveParser.statement_return;
-import org.apache.spark.SparkContext;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.rdd.JdbcRDD;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.hive.HiveContext;
 
-import scala.Function0;
 import cn.zhuzi.spark.SparkUtils;
 
 /**

@@ -2,6 +2,8 @@ package cn.zhuzi.spark;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 
 /**
  * @Title: SparkUtils.java
@@ -53,5 +55,40 @@ public class SparkUtils {
 			buildContext();
 		}
 		return sc;
+	}
+
+	/**
+	 * Spark2.0之前版本SQLContext创建方式
+	 * 
+	 * @return SQLContext
+	 */
+	public static SQLContext getSQLContextOld() {
+		SQLContext sqlContext = new SQLContext(sc);
+		return sqlContext;
+	}
+
+	/**
+	 * SparkSession创建方式
+	 * 
+	 * @return
+	 */
+	public static SparkSession buildSparkSession() {
+		SparkSession sparkSession = SparkSession.builder().config(conf).getOrCreate();
+		return sparkSession;
+	}
+
+	/**
+	 * SQLContext创建
+	 * 
+	 * @return SQLContext
+	 */
+	public static SQLContext getSQLContext() {
+		SparkSession sparkSession = buildSparkSession();
+		SQLContext context = new SQLContext(sparkSession);
+		return context;
+	}
+
+	public static void main(String[] args) {
+		buildSparkSession();
 	}
 }

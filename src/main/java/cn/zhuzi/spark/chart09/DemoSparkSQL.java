@@ -12,9 +12,11 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 //不能使用hive时，导入Spark SQL
 import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 //导入Spark SQL
 import org.apache.spark.sql.hive.HiveContext;
 
+import scala.collection.immutable.Map;
 import cn.zhuzi.spark.SparkUtils;
 
 /**
@@ -58,6 +60,22 @@ public class DemoSparkSQL {
 
 	}
 
+	/**
+	 * 查询(新版本API)
+	 * 
+	 * @throws IOException
+	 */
+	static void selectBySparkSQL2() throws IOException {
+		SparkSession sparkSession = SparkUtils.buildSparkSession();
+		Dataset<Row> json = sparkSession.read().json(Resources.getResourceAsFile("json/person.json").getAbsolutePath());
+		SQLContext sqlContext = json.sqlContext();
+		sqlContext.registerDataFrameAsTable(json, "per_temp");
+		Dataset<Row> sql = sqlContext.sql("select * from per_temp order by sal limit 2");
+		Dataset<Row> limit = json.orderBy("sal").limit(2);
+		System.out.println(limit);
+		System.out.println(sql);
+	}
+
 	/*
 	 * apache Hive
 	 */
@@ -68,7 +86,34 @@ public class DemoSparkSQL {
 		JavaRDD<Object> map = rows.toJavaRDD().map(r -> r.get(0));
 	}
 
+	static void hive2() {
+		SparkSession sparkSession = SparkUtils.buildSparkSession();
+		Dataset<Row> sql = sparkSession.sql("SELECT KEY,VALUE FROM MyTable");
+		JavaRDD<Object> map = sql.toJavaRDD().map(r -> r.get(0));
+	}
+
 	public static void main(String[] args) throws IOException {
-		selectBySparkSQL();
+		// selectBySparkSQL2();
+
+		SparkSession session = buildSparkSession();
+		Map<String, String> all = session.conf().getAll();
+		
+
+	}
+
+	/**
+	 * 2.0版本创建sparkSession
+	 */
+	public static SparkSession buildSparkSession() {
+		SparkSession sparkSession = SparkSession.builder().appName("MyLocal").master("local").config("key", "value").getOrCreate();
+		return sparkSession;
+	}
+
+	/**
+	 * 2.0版本创建支持hive的sparkSession
+	 */
+	public static SparkSession buildSparkSessionEnableHive() {
+		SparkSession sparkSession = SparkSession.builder().appName("MyLocal").master("local").config("key", "value").enableHiveSupport().getOrCreate();
+		return sparkSession;
 	}
 }

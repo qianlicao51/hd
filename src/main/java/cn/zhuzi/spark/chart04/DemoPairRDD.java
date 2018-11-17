@@ -1,21 +1,16 @@
 package cn.zhuzi.spark.chart04;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 
-import org.apache.commons.math.optimization.GoalType;
-import org.apache.ibatis.io.Resources;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
-import org.apache.spark.rdd.RDD;
 
 import scala.Tuple2;
 import cn.zhuzi.spark.SparkUtils;
