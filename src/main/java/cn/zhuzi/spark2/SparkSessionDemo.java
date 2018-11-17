@@ -1,6 +1,7 @@
 package cn.zhuzi.spark2;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.spark.sql.Dataset;
@@ -45,12 +46,59 @@ public class SparkSessionDemo {
 	 * 读取 json
 	 */
 	public static void readJson() throws IOException {
-		Resources.getResourceAsFile("json/person.json").getAbsolutePath();
+		String path = Resources.getResourceAsFile("json/person.json").getAbsolutePath();
+		SparkSession sparkSession = buildSparkSession();
+		// 此处我使用本地文件，hdfs是hdfs://ip/data.json
+		Dataset<Row> json = sparkSession.read().json(path);
+		System.out.println(json.collectAsList());
+	}
+
+	/**
+	 * CSV文件
+	 * 
+	 * @throws IOException
+	 */
+	public static void readCsv() throws IOException {
+		String path = Resources.getResourceAsFile("csv/per.csv").getAbsolutePath();
+		SparkSession sparkSession = buildSparkSession();
+		// 此处我使用本地文件，hdfs是hdfs://ip/data.json
+		// TODO 这两种加载方法效果一样
+		// Dataset<Row> load = sparkSession.read().json(path);
+		Dataset<Row> load = sparkSession.read().format("csv").load(path);
+		System.out.println(load.collectAsList());
+		// [[grq,25,��], [lfeng,25,��]]
+	}
+
+	/**
+	 * JDBC连接数据库，将数据库表转换为DataFrame
+	 */
+	public static void loadFormMySQL() {
+		SparkSession sparkSession = buildSparkSession();
+		Dataset<Row> load = sparkSession.read().format("jdbc")// JDBC
+				.option("url", "jdbc:mysql://localhost:3306/life").option("dbtable", "family")// 表名
+				.option("user", "root")// 用户
+				.option("password", "root").load();
+		System.out.println(load.collectAsList());
 
 	}
 
-	public static void main(String[] args) {
+	/**
+	 * JDBC连接数据库，将数据库表转换为DataFrame
+	 */
+	public static void loadFormMySQL2() {
+		Properties connprop = new Properties();
+		connprop.put("user", "root");
+		connprop.put("password", "root");
+		SparkSession sparkSession = buildSparkSession();
+		Dataset<Row> load = sparkSession.read().jdbc("jdbc:mysql://localhost:3306/life", // url
+				"family",// tableName
+				connprop);
+		System.out.println(load.collectAsList());
 
+	}
+
+	public static void main(String[] args) throws IOException {
+		loadFormMySQL2();
 	}
 
 	private static void conf() {
