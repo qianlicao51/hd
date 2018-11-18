@@ -3,3 +3,4 @@
 /.classpath
 /metastore_db
 /derby.log
+/.settings/*
