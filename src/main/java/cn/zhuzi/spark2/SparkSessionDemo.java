@@ -10,12 +10,7 @@ import org.apache.spark.sql.RuntimeConfig;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 
-import com.alibaba.fastjson.JSON;
-
-import scala.Function1;
-import scala.Tuple2;
 import scala.collection.immutable.Map;
-import scala.collection.immutable.Set;
 
 /**
  * @Title: SparkSessionDemo.java
