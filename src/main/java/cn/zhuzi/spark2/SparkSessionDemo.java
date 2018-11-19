@@ -118,21 +118,19 @@ public class SparkSessionDemo {
 	}
 
 	private static void conf() {
-		SparkSession sparkSession = buildSparkSessionEnableHive();
+		SparkSession sparkSession = SparkSession.builder().appName("MyLocal").master("local").config("key", "value").enableHiveSupport().getOrCreate();
 		RuntimeConfig runtimeConfig = sparkSession.conf();
 		Map<String, String> confAll = runtimeConfig.getAll();
 		System.out.println(confAll);
 		/**
-		 * <br>
-		 * spark.driver.host -> 169.254.86.190</br> <br>
-		 * spark.driver.port -> 59254</br> <br>
-		 * hive.metastore.warehouse.dir ->
-		 * file:/E:/lun/work/hd/spark-warehouse/</br> <br>
-		 * spark.app.name -> MyLocal</br> <br>
-		 * key -> value</br> <br>
-		 * spark.executor.id -> driver</br> <br>
-		 * spark.master -> local</br> <br>
-		 * spark.app.id -> local-1542467177838</br>
+		 * spark.driver.host -> 169.254.86.190 <br>
+		 * spark.driver.port -> 59254 <br>
+		 * hive.metastore.warehouse.dir -> file:/E:/lun/work/hd/spark-warehouse/ <br>
+		 * spark.app.name -> MyLocal <br>
+		 * key -> value <br>
+		 * spark.executor.id -> driver <br>
+		 * spark.master -> local <br>
+		 * spark.app.id -> local-1542467177838
 		 */
 	}
 }

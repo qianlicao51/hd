@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.zhuzi</groupId>
 	<artifactId>hd</artifactId>
@@ -12,7 +13,12 @@
 		<spark.version>2.1.1</spark.version>
 	</properties>
 	<dependencies>
-
+		<!-- 第三方库 -->
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>4.3</version>
+		</dependency>
 		<!-- 工具类 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -150,25 +156,25 @@
 	</repositories>
 	<!-- kettle中央仓库 /end -->
 
-	<!-- -->
-	<!-- <resources> <resource> <directory>src/main/java</directory> <includes> <include>**/*.xml</include> </includes> </resource> <resource> <directory>src/main/resources</directory> </resource> </resources> -->
-	<!-- -->
+
+	<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> <version>3.2</version> 编译时使用的JDK版本和UTF8编码 <configuration> <source>1.8</source> <target>1.8</target> 
+		<encoding>UTF-8</encoding> <showWarnings>true</showWarnings> </configuration> </plugin> -->
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.2</version>
-					<!-- 编译时使用的JDK版本和UTF8编码 -->
-					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-						<encoding>UTF-8</encoding>
-						<showWarnings>true</showWarnings>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<!-- 用来创建超级JAR包的 Maven shade插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>
