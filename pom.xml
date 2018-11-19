@@ -103,16 +103,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-sql_2.11</artifactId>
+			<version>${spark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-hive_2.11</artifactId>
 			<version>${spark.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-sql_2.11</artifactId>
-			<version>${spark.version}</version>
-		</dependency>
+		
+<!-- 
+		
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.11</artifactId>
@@ -122,9 +124,8 @@
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-network-shuffle_2.11</artifactId>
 			<version>${spark.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- spark /end -->
-
 		<!-- mybatis为了读取文件使用 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -157,11 +158,9 @@
 	<!-- kettle中央仓库 /end -->
 
 
-	<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> <version>3.2</version> 编译时使用的JDK版本和UTF8编码 <configuration> <source>1.8</source> <target>1.8</target> 
-		<encoding>UTF-8</encoding> <showWarnings>true</showWarnings> </configuration> </plugin> -->
 	<build>
 		<plugins>
-			<!-- 用来创建超级JAR包的 Maven shade插件 -->
+			<!-- 用来创建超级JAR包的Maven shade插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
