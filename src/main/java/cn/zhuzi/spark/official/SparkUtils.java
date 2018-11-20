@@ -1,11 +1,12 @@
 package cn.zhuzi.spark.official;
 
-import org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.nullCondition_return;
+import org.apache.hadoop.hive.ql.parse.HiveParser.storedAsDirs_return;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.storage.StorageLevel;
 
 /**
  * @Title: SparkUtils.java
@@ -33,7 +34,6 @@ public class SparkUtils {
 
 	/**
 	 * 官方给的创建JavaSparkContext方式
-	 * 
 	 * @return
 	 */
 	public static JavaSparkContext getJavaSparkContext() {
@@ -46,6 +46,8 @@ public class SparkUtils {
 	public static void readFile(String path) {
 		Dataset<String> textFile = sparkSession.read().textFile(path);
 		JavaRDD<String> lines = textFile.toJavaRDD();
+		lines.persist(StorageLevel.OFF_HEAP());
+		System.out.println(lines.count());
 
 	}
 }
