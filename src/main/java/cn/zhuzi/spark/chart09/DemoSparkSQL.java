@@ -3,8 +3,6 @@ package cn.zhuzi.spark.chart09;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.hadoop.hive.metastore.api.hive_metastoreConstants;
 import org.apache.ibatis.io.Resources;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;

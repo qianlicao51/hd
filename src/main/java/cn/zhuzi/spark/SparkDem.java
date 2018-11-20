@@ -2,6 +2,7 @@ package cn.zhuzi.spark;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.spark.SparkConf;
@@ -58,6 +59,13 @@ public class SparkDem {
 	}
 
 	public static void main(String[] args) throws IOException {
-		infoCount();
+		// infoCount();
+		map();
+	}
+
+	private static void map() {
+		JavaRDD<String> javaRDD = sc.parallelize(Arrays.asList("lifeng", "hang", "shuai"));
+		JavaRDD<String> map = javaRDD.map(t -> t.trim());
+		System.out.println(map);
 	}
 }
