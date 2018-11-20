@@ -51,7 +51,7 @@ public class SchemaRDDDemo {
 		Dataset<Row> recordsDF = spark.createDataFrame(perList, Person.class);
 		recordsDF.createOrReplaceTempView("person_table");
 		spark.sql("SELECT * FROM person_table t where t.age='25'").show();
-		long endTimes = System.currentTimeMillis();//14408 12699
+		long endTimes = System.currentTimeMillis();//
 		System.out.println(endTimes - startTimes);
 	}
 }
