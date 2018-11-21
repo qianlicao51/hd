@@ -36,8 +36,9 @@ public class SouGou {
 	}
 
 	public static void main(String[] args) throws IOException {
-		sortBysearch();
-		sort();
+		// sortBysearch();
+		// sort();
+		sortLogByKey();
 	}
 
 	/**
@@ -69,6 +70,8 @@ public class SouGou {
 
 		}
 		// System.out.println(resuleRDD.top(10));//报错
+		// 获取前10个
+		System.out.println(resuleRDD.collect().subList(0, 10));
 		File file = FileUtils.getFile("E:/had/spark/out/a_wc" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
 		resuleRDD.saveAsTextFile(file.getAbsolutePath());
 	}
