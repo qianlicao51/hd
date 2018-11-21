@@ -3,6 +3,7 @@ package cn.zhuzi.sparksp01;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -11,6 +12,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.storage.StorageLevel;
 import org.joda.time.DateTime;
 
 import scala.Tuple2;
@@ -34,10 +36,25 @@ public class SouGou {
 	}
 
 	public static void main(String[] args) throws IOException {
-		sortLogByKey();
-		// sortBysearch();
+		sortBysearch();
+		sort();
 	}
 
+	/**
+	 * 测试排序
+	 */
+	public static void sort() {
+		List<Integer> takeOrdered = sc.parallelize(Arrays.asList(2, 3, 4, 5, 6)).takeOrdered(2);
+		System.out.println(takeOrdered);
+
+	}
+
+	/**
+	 * 热搜词排序
+	 * 
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unused")
 	private static void sortLogByKey() throws IOException {
 		String filePath = Resources.getResourceAsFile("data/txt/20.TXT").getAbsolutePath();
 
@@ -45,12 +62,13 @@ public class SouGou {
 		JavaRDD<String> filter = fileStrRdd.filter(t -> t.split("\t").length == 6);
 		JavaPairRDD<String, Integer> mapToPair = filter.mapToPair(t -> (new Tuple2<String, Integer>((t.split("\t")[2]), 1)));
 		JavaPairRDD<String, Integer> resuleRDD = mapToPair.reduceByKey((a, b) -> a + b).mapToPair(t -> new Tuple2<Integer, String>(t._2, t._1)).sortByKey(false).mapToPair(t -> new Tuple2<String, Integer>(t._2, t._1));
-
+		resuleRDD.persist(StorageLevel.DISK_ONLY());
 		List<Tuple2<String, Integer>> collect = resuleRDD.collect();
 		for (Tuple2<String, Integer> tup : collect) {
 			System.out.println(tup._1 + "<>" + tup._2);
 
 		}
+		// System.out.println(resuleRDD.top(10));//报错
 		File file = FileUtils.getFile("E:/had/spark/out/a_wc" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
 		resuleRDD.saveAsTextFile(file.getAbsolutePath());
 	}
