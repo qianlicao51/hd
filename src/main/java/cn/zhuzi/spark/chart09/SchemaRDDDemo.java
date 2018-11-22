@@ -3,13 +3,9 @@ package cn.zhuzi.spark.chart09;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-
-import cn.zhuzi.spark.official.SparkUtils;
 
 /**
  * @Title: SchemaRDDDemo.java
