@@ -63,5 +63,6 @@ public class StreamDemo {
 		ssc.start();
 		// 等待作业完成
 		ssc.awaitTermination();
+		ssc.stop(true);
 	}
 }
