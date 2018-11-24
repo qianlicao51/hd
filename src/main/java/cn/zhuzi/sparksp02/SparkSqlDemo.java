@@ -2,6 +2,7 @@ package cn.zhuzi.sparksp02;
 
 //静态导入
 import static org.apache.spark.sql.functions.col;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
@@ -51,10 +53,10 @@ public class SparkSqlDemo {
 	}
 
 	public static void main(String[] args) throws AnalysisException {
-		// readJsonRunBasicDataFrame(sparkSession);
-		// readJsonRunBasicDataSet(sparkSession);
-		// readJsonInferSchema(sparkSession);
-		// readJSONProgrammatic(sparkSession);
+		readJsonRunBasicDataFrame(sparkSession);
+		readJsonRunBasicDataSet(sparkSession);
+		readJsonInferSchema(sparkSession);
+		readJSONProgrammatic(sparkSession);
 		fun(sparkSession);
 		// TODO SparkSQL 转化为 DataSet更加方便，因为它对字段是类型检查的
 	}
@@ -194,6 +196,12 @@ public class SparkSqlDemo {
 		public void setAge(int age) {
 			this.age = age;
 		}
+
+		@Override
+		public String toString() {
+			return ToStringBuilder.reflectionToString(this);
+		}
+
 	}
 
 	public static void readJsonRunBasicDataSet(SparkSession spark) {

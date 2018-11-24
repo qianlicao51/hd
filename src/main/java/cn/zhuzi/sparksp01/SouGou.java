@@ -10,6 +10,12 @@ import org.apache.ibatis.io.Resources;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import org.apache.spark.sql.AnalysisException;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoder;
+import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.storage.StorageLevel;
 import org.joda.time.DateTime;
@@ -33,19 +39,45 @@ public class SouGou {
 			sc = new JavaSparkContext(sparkSession.sparkContext());
 		}
 	}
+	static String textDataPath = "data/txt/207.TXT";
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, AnalysisException {
 		// sortBysearch();
 		// sort();
+		long startTime = System.currentTimeMillis();
 		sortLogByKey();
+		long second = System.currentTimeMillis();
+		sortLogByKeyBySaprkSQL();
+		long endTime = System.currentTimeMillis();
+		System.out.println("RDD使用时间(毫秒)是：" + (second - startTime));
+		System.out.println("SparkSQL使用时间(毫秒)是" + (endTime - second));
+
 	}
 
-	/**
-	 * 测试排序
-	 */
-	public static void sort() {
-		List<Integer> takeOrdered = sc.parallelize(Arrays.asList(2, 3, 4, 5, 6)).takeOrdered(2);
-		System.out.println(takeOrdered);
+	@SuppressWarnings("serial")
+	private static void sortLogByKeyBySaprkSQL() throws IOException, AnalysisException {
+		String filePath = Resources.getResourceAsFile(textDataPath).getAbsolutePath();
+
+		JavaRDD<LogBean> fileStrRdd = sc.textFile(filePath).map(new Function<String, LogBean>() {
+			@Override
+			public LogBean call(String v1) throws Exception {
+				String[] splitFields = v1.split("\t");
+				LogBean logBean = new LogBean();
+				logBean.setDateStr(splitFields[0]);
+				logBean.setUserid(splitFields[1]);
+				logBean.setQueryWord(splitFields[2]);
+				return logBean;
+			}
+		});
+		Encoder<LogBean> logEncoder = Encoders.bean(LogBean.class);
+		// TODO 读取文件转化为 DataSet
+		Dataset<LogBean> logSouGouDataset = sparkSession.createDataFrame(fileStrRdd, LogBean.class).as(logEncoder);
+		// TODO 使用全局 视图是 查询要带上global_temp
+		// logSouGouDataset.createGlobalTempView("sougou_log");
+		logSouGouDataset.createOrReplaceTempView("sougou_log");
+		Dataset<Row> result = sparkSession.sql("select queryWord,count(queryWord) from sougou_log t group by queryWord order by count(queryWord) desc ,queryWord desc");
+		File file = FileUtils.getFile("E:/had/spark/out/a_wcSaprkSQL" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
+		result.rdd().saveAsTextFile(file.toString());
 
 	}
 
@@ -56,7 +88,8 @@ public class SouGou {
 	 */
 	@SuppressWarnings("unused")
 	private static void sortLogByKey() throws IOException {
-		String filePath = Resources.getResourceAsFile("data/txt/20.TXT").getAbsolutePath();
+
+		String filePath = Resources.getResourceAsFile(textDataPath).getAbsolutePath();
 
 		JavaRDD<String> fileStrRdd = sc.textFile(filePath);
 		JavaRDD<String> filter = fileStrRdd.filter(t -> t.split("\t").length == 6);
@@ -64,14 +97,7 @@ public class SouGou {
 		JavaPairRDD<String, Integer> resuleRDD = mapToPair.reduceByKey((a, b) -> a + b).mapToPair(t -> new Tuple2<Integer, String>(t._2, t._1)).sortByKey(false).mapToPair(t -> new Tuple2<String, Integer>(t._2, t._1));
 		resuleRDD.persist(StorageLevel.DISK_ONLY());
 		List<Tuple2<String, Integer>> collect = resuleRDD.collect();
-		for (Tuple2<String, Integer> tup : collect) {
-			System.out.println(tup._1 + "<>" + tup._2);
-
-		}
-		// System.out.println(resuleRDD.top(10));//报错
-		// 获取前10个
-		System.out.println(resuleRDD.collect().subList(0, 10));
-		File file = FileUtils.getFile("E:/had/spark/out/a_wc" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
+		File file = FileUtils.getFile("E:/had/spark/out/a_wc_rdd" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
 		resuleRDD.saveAsTextFile(file.getAbsolutePath());
 	}
 
@@ -96,12 +122,22 @@ public class SouGou {
 	}
 
 	/**
+	 * 测试排序
+	 */
+	public static void sort() {
+		List<Integer> takeOrdered = sc.parallelize(Arrays.asList(2, 3, 4, 5, 6)).takeOrdered(2);
+		System.out.println(takeOrdered);
+
+	}
+	/**
 	 * 官方例子构建session的方法
 	 */
 	public static SparkSession buildSparkSession() {
-		SparkSession sparkSession = SparkSession.builder().appName("JavaSparkPi")
+		// TODO spark.sql.shuffle.partitions 设置并行度，不设置的话SparkSQL查询保存会保存多个文件
+		SparkSession sparkSession = SparkSession.builder().appName("JavaSparkPi").config("spark.sql.shuffle.partitions", 1)
 		// .master("spark://hadoop:7077")远程地址
 				.master("local").getOrCreate();
 		return sparkSession;
 	}
+
 }
