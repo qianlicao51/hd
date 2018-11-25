@@ -1,12 +1,19 @@
 package cn.zhuzi.spark.official;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructField;
+import org.apache.spark.sql.types.StructType;
 import org.apache.spark.storage.StorageLevel;
 
 /**
@@ -63,4 +70,31 @@ public class SparkUtils {
 
 	}
 
+	/**
+	 * 读取文件转为Dataset
+	 * 
+	 * @param sparkSession
+	 * @param filePath
+	 *            文件路径
+	 * @param schemaString
+	 *            schema 字符串(以逗号为分隔符)
+	 * @param fileSplit
+	 *            文件中的分隔符
+	 * @return
+	 */
+	public static Dataset<Row> txtfileToDateSet(SparkSession sparkSession, String filePath, String schemaString, String fileSplit) {
+		List<StructField> fields = new ArrayList<StructField>(16);
+		for (String fieldName : schemaString.split(",")) {
+			StructField field = DataTypes.createStructField(fieldName, DataTypes.StringType, true);
+			fields.add(field);
+		}
+		StructType schema = DataTypes.createStructType(fields);
+		JavaRDD<Row> rowRDD = sparkSession.sparkContext().textFile(filePath, 1).toJavaRDD().map(new Function<String, Row>() {
+			@Override
+			public Row call(String record) throws Exception {
+				return RowFactory.create(record.split(fileSplit));
+			}
+		});
+		return sparkSession.createDataFrame(rowRDD, schema);
+	}
 }

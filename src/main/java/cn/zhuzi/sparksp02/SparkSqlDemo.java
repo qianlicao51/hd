@@ -53,11 +53,11 @@ public class SparkSqlDemo {
 	}
 
 	public static void main(String[] args) throws AnalysisException {
-		readJsonRunBasicDataFrame(sparkSession);
-		readJsonRunBasicDataSet(sparkSession);
-		readJsonInferSchema(sparkSession);
+		// readJsonRunBasicDataFrame(sparkSession);
+		// readJsonRunBasicDataSet(sparkSession);
+		// readJsonInferSchema(sparkSession);
 		readJSONProgrammatic(sparkSession);
-		fun(sparkSession);
+		// fun(sparkSession);
 		// TODO SparkSQL 转化为 DataSet更加方便，因为它对字段是类型检查的
 	}
 
@@ -80,6 +80,10 @@ public class SparkSqlDemo {
 
 		Dataset<Row> createDataFrame = spark.createDataFrame(rowRDD, schema);
 
+		StructType schema2 = createDataFrame.schema();
+		System.out.println(schema2);
+		createDataFrame.createOrReplaceTempView("temp");
+		spark.sql("select name from temp").show();
 	}
 
 	private static void readJsonInferSchema(SparkSession spark) {

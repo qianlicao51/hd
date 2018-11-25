@@ -20,6 +20,7 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.storage.StorageLevel;
 import org.joda.time.DateTime;
 
+import cn.zhuzi.spark.official.SparkUtils;
 import scala.Tuple2;
 
 /**
@@ -47,10 +48,15 @@ public class SouGou {
 		long startTime = System.currentTimeMillis();
 		sortLogByKey();
 		long second = System.currentTimeMillis();
-		sortLogByKeyBySaprkSQL();
+		sortLogByKeyBySaprkSQLNoNeedBean();
 		long endTime = System.currentTimeMillis();
+		sortLogByKeyBySaprkSQL();
+		long lastTime = System.currentTimeMillis();
 		System.out.println("RDD使用时间(毫秒)是：" + (second - startTime));
 		System.out.println("SparkSQL使用时间(毫秒)是" + (endTime - second));
+		System.out.println("SparkSQL(javabean)使用时间" + (lastTime - endTime));
+		// 使用时间
+		// sortLogByKeyBySaprkSQL<sortLogByKeyBySaprkSQLNoNeedBean<sortLogByKey
 
 	}
 
@@ -77,6 +83,22 @@ public class SouGou {
 		logSouGouDataset.createOrReplaceTempView("sougou_log");
 		Dataset<Row> result = sparkSession.sql("select queryWord,count(queryWord) from sougou_log t group by queryWord order by count(queryWord) desc ,queryWord desc");
 		File file = FileUtils.getFile("E:/had/spark/out/a_wcSaprkSQL" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
+		result.rdd().saveAsTextFile(file.toString());
+
+	}
+
+	@SuppressWarnings("serial")
+	private static void sortLogByKeyBySaprkSQLNoNeedBean() throws IOException, AnalysisException {
+		String filePath = Resources.getResourceAsFile(textDataPath).getAbsolutePath();
+		// 20111230000005 57375476989eea12893c0c3811607bcf 奇艺高清 1 1
+		// http://www.qiyi.com/
+		String schameStr = "datestr,uuid,queryword,a,b,url";
+		Dataset<Row> dateSet = SparkUtils.txtfileToDateSet(sparkSession, filePath, schameStr, "\t");
+		// TODO 使用全局 视图是 查询要带上global_temp
+		// logSouGouDataset.createGlobalTempView("sougou_log");
+		dateSet.createOrReplaceTempView("sougou_log");
+		Dataset<Row> result = sparkSession.sql("select queryWord,count(queryWord) from sougou_log t group by queryWord order by count(queryWord) desc ,queryWord desc");
+		File file = FileUtils.getFile("E:/had/spark/out/a_wcSaprkSQLNoNeedBean" + new DateTime().toString("yyyyMMdd_HHmm_ss"));
 		result.rdd().saveAsTextFile(file.toString());
 
 	}
@@ -129,6 +151,7 @@ public class SouGou {
 		System.out.println(takeOrdered);
 
 	}
+
 	/**
 	 * 官方例子构建session的方法
 	 */
