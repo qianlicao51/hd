@@ -85,8 +85,7 @@ public class SparkUtils {
 	public static Dataset<Row> txtfileToDateSet(SparkSession sparkSession, String filePath, String schemaString, String fileSplit) {
 		List<StructField> fields = new ArrayList<StructField>(16);
 		for (String fieldName : schemaString.split(",")) {
-			StructField field = DataTypes.createStructField(fieldName, DataTypes.StringType, true);
-			fields.add(field);
+			fields.add(DataTypes.createStructField(fieldName, DataTypes.StringType, true));
 		}
 		StructType schema = DataTypes.createStructType(fields);
 		JavaRDD<Row> rowRDD = sparkSession.sparkContext().textFile(filePath, 1).toJavaRDD().map(new Function<String, Row>() {
@@ -95,6 +94,30 @@ public class SparkUtils {
 				return RowFactory.create(record.split(fileSplit));
 			}
 		});
+
 		return sparkSession.createDataFrame(rowRDD, schema);
 	}
+
+	/**
+	 * 读取文件转为Dataset lambda版本
+	 * 
+	 * @param sparkSession
+	 * @param filePath
+	 *            文件路径
+	 * @param schemaString
+	 *            schema 字符串(以逗号为分隔符)
+	 * @param fileSplit
+	 *            文件中的分隔符
+	 * @return
+	 */
+	public static Dataset<Row> txtfileToDateSet2(SparkSession sparkSession, String filePath, String schemaString, String fileSplit) {
+		List<StructField> fields = new ArrayList<StructField>(16);
+		for (String fieldName : schemaString.split(",")) {
+			fields.add(DataTypes.createStructField(fieldName, DataTypes.StringType, true));
+		}
+		StructType schema = DataTypes.createStructType(fields);
+		JavaRDD<Row> rowRDD = sparkSession.sparkContext().textFile(filePath, 1).toJavaRDD().map(t -> t.split("fileSplit")).map(t -> RowFactory.create(t));
+		return sparkSession.createDataFrame(rowRDD, schema);
+	}
+
 }

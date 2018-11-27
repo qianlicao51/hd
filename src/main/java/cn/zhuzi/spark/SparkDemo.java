@@ -6,6 +6,8 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
 
 /**
  * @Title: SparkDemo.java
@@ -51,7 +53,6 @@ public class SparkDemo {
 
 		System.out.println("-----------" + filter.first());
 		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("shuai", "feng"));
-
 		closeContext();
 	}
 
