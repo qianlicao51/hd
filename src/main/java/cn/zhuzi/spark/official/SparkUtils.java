@@ -116,6 +116,11 @@ public class SparkUtils {
 			fields.add(DataTypes.createStructField(fieldName, DataTypes.StringType, true));
 		}
 		StructType schema = DataTypes.createStructType(fields);
+		/*
+		 * <p> map(new
+		 * Function<String,Row>(这个过程，不想使用java版本的方式，决定使用lambda方式，苦于无奈，
+		 * 最终苦思冥想看到一个scala的demo，受到启发，使用2次map就行 <p>
+		 */
 		JavaRDD<Row> rowRDD = sparkSession.sparkContext().textFile(filePath, 1).toJavaRDD().map(t -> t.split("fileSplit")).map(t -> RowFactory.create(t));
 		return sparkSession.createDataFrame(rowRDD, schema);
 	}
