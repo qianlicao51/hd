@@ -1,6 +1,5 @@
 package cn.zhuzi.spark2;
 
-import org.apache.hadoop.hive.ql.parse.HiveParser_IdentifiersParser.nullCondition_return;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;

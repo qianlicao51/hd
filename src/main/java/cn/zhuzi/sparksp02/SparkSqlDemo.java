@@ -55,8 +55,8 @@ public class SparkSqlDemo {
 	public static void main(String[] args) throws AnalysisException {
 		// readJsonRunBasicDataFrame(sparkSession);
 		// readJsonRunBasicDataSet(sparkSession);
-		// readJsonInferSchema(sparkSession);
-		readJSONProgrammatic(sparkSession);
+		readJsonInferSchema(sparkSession);
+		// readJSONProgrammatic(sparkSession);
 		// fun(sparkSession);
 		// TODO SparkSQL 转化为 DataSet更加方便，因为它对字段是类型检查的
 	}

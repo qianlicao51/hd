@@ -63,7 +63,6 @@ public class SouGou {
 	@SuppressWarnings("serial")
 	private static void sortLogByKeyBySaprkSQL() throws IOException, AnalysisException {
 		String filePath = Resources.getResourceAsFile(textDataPath).getAbsolutePath();
-
 		JavaRDD<LogBean> fileStrRdd = sc.textFile(filePath).map(new Function<String, LogBean>() {
 			@Override
 			public LogBean call(String v1) throws Exception {
