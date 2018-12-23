@@ -23,7 +23,6 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class FruitsMRJob extends Configured implements Tool {
 
-	@Override
 	public int run(String[] args) throws Exception {
 		Configuration conf = this.getConf();
 
