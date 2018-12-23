@@ -24,7 +24,6 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class HDFSDriver extends Configured implements Tool {
 
-	@Override
 	public int run(String[] args) throws Exception {
 		Configuration conf = this.getConf();
 
