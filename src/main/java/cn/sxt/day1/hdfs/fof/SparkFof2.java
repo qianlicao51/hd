@@ -92,7 +92,6 @@ public class SparkFof2 {
 				return new Tuple2<String, String>(v1._1, sum + "");
 			}
 		});
-		// 挑选间接好友操作 把 之前的key 的 前面表示符号去掉
 		List<Tuple2<String, String>> collect = rdd.collect();
 
 		for (Tuple2<String, String> tup : collect) {
