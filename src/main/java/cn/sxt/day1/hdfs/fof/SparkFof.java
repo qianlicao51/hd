@@ -14,6 +14,12 @@ import cn.sxt.config.HadoopConfig;
 import cn.zhuzi.spark.official.SparkUtils;
 import scala.Tuple2;
 
+/**
+ * 共同好友spark 基于 集合操作
+ * 
+ * @author MI
+ *
+ */
 public class SparkFof {
 	public static void main(String[] args) {
 
@@ -50,7 +56,7 @@ public class SparkFof {
 				return resuList.iterator();
 			}
 		});
-		ArrayList<String>list =new ArrayList<String>(flatMap.collect()) ;
+		ArrayList<String> list = new ArrayList<String>(flatMap.collect());// flatMap的集合不可修改
 		ArrayList<String> collect2 = new ArrayList<String>(flatMapFriend.collect());
 		list.removeAll(collect2);
 		// flatMap中药排除他俩是直接好友
