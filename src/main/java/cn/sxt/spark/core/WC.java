@@ -26,7 +26,11 @@ import scala.Tuple2;
  */
 public class WC {
 	public static void main(String[] args) {
-		JavaSparkContext sc = new JavaSparkContext(SparkSession.builder().appName("JavaSpark_wordCount").getOrCreate().sparkContext());
+		JavaSparkContext sc = new JavaSparkContext(SparkSession.builder().appName("JavaSpark_wordCount")
+
+				.master("local").
+
+				getOrCreate().sparkContext());
 		JavaRDD<String> parallelize = sc.parallelize(Arrays.asList("hello grq", "hello lifeng", "hello lifeng", "hello lifeng"));
 
 		JavaPairRDD<String, Integer> mapToPair = parallelize.mapToPair(t -> new Tuple2<String, Integer>(t, 1)).reduceByKey((a, b) -> (a + b)).mapToPair(t -> new Tuple2<Integer, String>(t._2, t._1))
