@@ -8,13 +8,14 @@
  * @version V1.0 
  * @Copyright: 2018 grq All rights reserved. 
  */
-package cn.sxt.spark;
+package cn.sxt.spark.core;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 
@@ -26,6 +27,7 @@ import scala.Tuple2;
  */
 public class WCDemo {
 	static JavaSparkContext sc;
+	static String base_path = null;
 	/**
 	 * Spark运行模式 1.local --Eclipse 开发本地模式 多用于测试
 	 * <p>
@@ -38,14 +40,27 @@ public class WCDemo {
 	static {
 
 		sc = new JavaSparkContext(SparkSession.builder().appName("JavaSparkPi").master("local").getOrCreate().sparkContext());
-
-	}
-
-	public static void main(String[] args) throws IOException {
 		/**
 		 * 使用mybatis 获取资源文件路径
 		 */
-		String base_path = Resources.getResourceAsFile("data/sxt/hello2.txt").getAbsolutePath();
+		try {
+			base_path = Resources.getResourceAsFile("data/sxt/hello2.txt").getAbsolutePath();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		wc();
+		sc.stop();
+	}
+
+	/**
+	 * wordcount
+	 */
+	private static void wc() {
 		JavaPairRDD<String, Integer> mapToPair = sc.textFile(base_path).flatMap(t -> Arrays.asList(t.split(" ")).iterator()).mapToPair(t -> new Tuple2<String, Integer>(t, 1));
 		JavaPairRDD<String, Integer> reduceByKey = mapToPair.reduceByKey((a, b) -> (a + b));
 		// 倒序排序
@@ -53,6 +68,18 @@ public class WCDemo {
 		for (Tuple2<String, Integer> tuple : mapToPair2.collect()) {
 			System.out.println(tuple);
 		}
+	}
 
+	/**
+	 * 抽样
+	 * 
+	 * @param sample   true表示有无放回抽取
+	 * @param fraction 抽样比例
+	 * @param seed     :针对同一批数据，只要种子相同，每次抽取数据结果一致
+	 */
+	private static void sampleMethod(boolean sample, double fraction, long seed) {
+		JavaRDD<String> textFile = sc.textFile(base_path);
+		// 抽样
+		JavaRDD<String> samples = textFile.sample(sample, fraction, seed);
 	}
 }
