@@ -111,7 +111,6 @@ public class MovieSpark {
 		Dataset<Row> occDF = rowToDf(moviesRdd, DataTypes.createStructType(asListOcc));
 		occDF.createOrReplaceTempView("t_occ");
 
-
 		// TODO 1:RDD实现电影流行度 (1):所有电影中平均得分最高的Top10电影 和 所有电影粉丝最多的电影
 
 		MovieAnalysis.rddForMovieTop10(sparkSession, ratRdd);

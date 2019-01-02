@@ -2,7 +2,7 @@
  * All rights Reserved, Designed By grq
  * @Title:  MovieAnalysis.java   
  * @Package spark.study.booka.char12   
- * @Description:    TODO(用一句话描述该文件做什么)   
+ * @Description:    TODO(电影推荐)   
  * @author: grq  
  * @date:   2019年1月2日 下午11:04:32   
  * @version V1.0 
@@ -12,8 +12,6 @@ package spark.study.booka.char12;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-
-import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Dataset;
