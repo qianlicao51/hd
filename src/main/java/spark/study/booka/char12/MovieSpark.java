@@ -15,12 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.ibatis.io.Resources;
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
-import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
@@ -30,7 +27,6 @@ import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
 import io.netty.handler.logging.LogLevel;
-import scala.Tuple2;
 
 /**
  * @author MI
@@ -115,7 +111,9 @@ public class MovieSpark {
 		Dataset<Row> occDF = rowToDf(moviesRdd, DataTypes.createStructType(asListOcc));
 		occDF.createOrReplaceTempView("t_occ");
 
+
 		// TODO 1:RDD实现电影流行度 (1):所有电影中平均得分最高的Top10电影 和 所有电影粉丝最多的电影
+
 		MovieAnalysis.rddForMovieTop10(sparkSession, ratRdd);
 		MovieAnalysis.rddForMovieTop10Bysql(sparkSession, ratDF);
 		sc.close();

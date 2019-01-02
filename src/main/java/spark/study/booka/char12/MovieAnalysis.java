@@ -12,6 +12,7 @@ package spark.study.booka.char12;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
@@ -43,7 +44,7 @@ public class MovieAnalysis {
 		sparkSession.sql("select * from ("//
 				+ "select MovieID, count(MovieID) count_moive    from t_rat group by MovieID order by count_moive desc" //
 				+ " ) limit 10").show();
-		;
+
 	}
 
 	/**
@@ -94,6 +95,5 @@ public class MovieAnalysis {
 		System.out.println("所有电影粉丝最多的电影");
 		JavaPairRDD<String, Long> reduceByKey2 = mapToPair.mapToPair(t -> new Tuple2<String, Long>(t._1, t._2._2)).reduceByKey((x, y) -> (x + y));
 		reduceByKey2.mapToPair(t -> new Tuple2<Long, String>(t._2, t._1)).sortByKey(false).mapToPair(t -> new Tuple2<String, Long>(t._2, t._1)).take(10).forEach(t -> System.out.println(t));
-
 	}
 }
