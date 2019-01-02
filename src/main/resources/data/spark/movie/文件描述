@@ -1,0 +1,23 @@
+1:用户文件users.dat---------------------------------------
+userID::Gender::Age::OccupationID::Zip-code
+用户id   性别M是男性 年龄  职业     邮编
+
+2:ratings.dat---------------------------------------------
+UserID::MovieID::Rating::Timestamp
+用户ID   电影id评分数据 时间戳
+----------------------------------------------------------
+3:movies.dat
+MovieID::Title::Genres
+电影ID 电影名    电影类型
+
+4:职业Occupation.dat--------------------------------------
+OccupationID::OccupationName
+职业id  职业
+----------------------------------------------------------
+----------------------------------------------------------
+
+
+
+
+推荐系统常用数据集
+https://www.cnblogs.com/shenxiaolin/p/8337913.html
