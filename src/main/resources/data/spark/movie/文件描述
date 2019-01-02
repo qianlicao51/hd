@@ -1,5 +1,5 @@
 1:用户文件users.dat---------------------------------------
-userID::Gender::Age::OccupationID::Zip-code
+UserID::Gender::Age::OccupationID::Zip-code
 用户id   性别M是男性 年龄  职业     邮编
 
 2:ratings.dat---------------------------------------------
