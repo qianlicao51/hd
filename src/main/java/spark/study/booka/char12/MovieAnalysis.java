@@ -100,6 +100,7 @@ public class MovieAnalysis {
 
 	/**
 	 * 2:最受男性欢迎的电影 和最受女性欢迎的电影(RDD方式)
+	 * 博客地址https://blog.csdn.net/u012848709/article/details/85721899
 	 * 
 	 * @param userDF
 	 * @param ratDF
@@ -184,6 +185,7 @@ public class MovieAnalysis {
 
 	/**
 	 * 2:最受男性欢迎的电影 和最受女性欢迎的电影(RDD方式)使用lambda简化
+	 * 博客地址https://blog.csdn.net/u012848709/article/details/85721899
 	 * 
 	 * @param userDF
 	 * @param ratDF
@@ -224,6 +226,7 @@ public class MovieAnalysis {
 
 	/**
 	 * 2:最受男性欢迎的电影 和最受女性欢迎的电影(Sql方式)
+	 * 博客地址https://blog.csdn.net/u012848709/article/details/85721899
 	 * 
 	 * @param userDF
 	 * @param ratDF
