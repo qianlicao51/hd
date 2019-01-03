@@ -83,7 +83,7 @@ public class MovieAnalysis {
 			@Override
 			public Tuple2<Double, String> call(Tuple2<String, Tuple2<Long, Long>> v1) throws Exception {
 				// TODO 都是整数 做除法还是整数
-				double avg = v1._2._1 * 0.1 / v1._2._2;
+				double avg = v1._2._1 * 1.0 / v1._2._2;
 				return new Tuple2<Double, String>(avg, v1._1);
 			}
 		});
@@ -175,7 +175,7 @@ public class MovieAnalysis {
 			@Override
 			public Tuple2<Double, String> call(Tuple2<String, Tuple2<Long, Long>> v1) throws Exception {
 				// TODO 都是整数 做除法还是整数
-				double avg = v1._2._1 * 0.1 / v1._2._2;
+				double avg = v1._2._1 * 1.0 / v1._2._2;
 				return new Tuple2<Double, String>(avg, v1._1);
 			}
 		});
