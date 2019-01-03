@@ -112,9 +112,11 @@ public class MovieSpark {
 		occDF.createOrReplaceTempView("t_occ");
 
 		// TODO 1:RDD实现电影流行度 (1):所有电影中平均得分最高的Top10电影 和 所有电影粉丝最多的电影
-
-		MovieAnalysis.rddForMovieTop10(sparkSession, ratRdd);
-		MovieAnalysis.rddForMovieTop10Bysql(sparkSession, ratDF);
+//		MovieAnalysis.rddForMovieTop10(sparkSession, ratRdd);
+//		MovieAnalysis.rddForMovieTop10Bysql(sparkSession, ratDF);
+		// TODO 2:最受男性欢迎的电影 和最受女性欢迎的电影
+		MovieAnalysis.popularBySql(sparkSession, userDF, ratDF);
+		MovieAnalysis.popularByRDD(sparkSession, userRdd, ratRdd);
 		sc.close();
 	}
 
