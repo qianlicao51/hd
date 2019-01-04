@@ -10,7 +10,6 @@
  */
 package spark.study.booka.char12;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +21,6 @@ import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.SparkSession;
 
 import scala.Tuple2;
-import scala.reflect.ClassManifestFactory;
-import scala.reflect.ClassTag;
 
 /**
  * @author MI
