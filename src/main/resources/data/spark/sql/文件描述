@@ -1,0 +1,4 @@
+用户 id 用户名	注册时间
+{"userID": 0, "name": "spark0", "registeredTime": "2016-10-11 18:06:25"}
+日志id 用户id 访问时间  类型(0 为访问 1 为购买)  消费金额
+{"logID": 0,"userID": 0, "time": "2016-10-04 15:42:45", "typed": 0, "consumed": 0.0}
