@@ -113,24 +113,28 @@
 			<version>${spark.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.11</artifactId>
 			<version>${spark.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-mllib_2.11</artifactId>
-			<version>${spark.version}</version>
-			<scope>runtime</scope>
+			<version>2.1.1</version>
 		</dependency>
-
-		<!-- <dependency> <groupId>org.apache.spark</groupId> <artifactId>spark-streaming_2.11</artifactId> 
-			<version>${spark.version}</version> </dependency> <dependency> <groupId>org.apache.spark</groupId> 
-			<artifactId>spark-network-shuffle_2.11</artifactId> <version>${spark.version}</version> 
-			</dependency> -->
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-streaming_2.11</artifactId>
+			<version>${spark.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-network-shuffle_2.11</artifactId>
+			<version>${spark.version}</version>
+		</dependency>
 		<!-- spark /end -->
 		<!-- mybatis为了读取文件使用 -->
 		<dependency>

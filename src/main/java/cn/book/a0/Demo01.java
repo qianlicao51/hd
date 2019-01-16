@@ -19,7 +19,7 @@ public class Demo01 {
 	public static void main(String[] args) {
 		JavaSparkContext scContext = SparkUtils.getJavaSparkContext();
 
-		JavaRDD<String> filter = scContext.textFile("hdfs://had2/file/core-site.xml", 2).filter(t -> t.contains("name"));
+		JavaRDD<String> filter = scContext.textFile("hdfs://had1/file/core-site.xml", 2).filter(t -> t.contains("name"));
 		int numPartitions = filter.getNumPartitions();
 
 		System.out.println(numPartitions);
