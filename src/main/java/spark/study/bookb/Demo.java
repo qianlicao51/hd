@@ -14,6 +14,8 @@ import org.apache.spark.mllib.linalg.Vectors;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.junit.Test;
 
+import com.sun.tools.classfile.Opcode.Set;
+
 import org.apache.spark.mllib.linalg.Matrices;
 import org.apache.spark.mllib.linalg.Matrix;
 import org.apache.spark.mllib.linalg.Vector;
@@ -65,4 +67,5 @@ public class Demo {
 		// (1,1) 8.0
 		// 被创建为稀疏矩阵（（9.0,0.0）,（0.0，8.0）, （0.0，6.0））。
 	}
+
 }
