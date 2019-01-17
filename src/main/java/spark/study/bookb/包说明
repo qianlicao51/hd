@@ -1,2 +1,8 @@
  《Spark高级数据分析》
  例子
+ 
+ ## 报错 
+ Only one SparkContext may be running in this JVM (see SPARK-2243). To ignore this error, set spark.driver.allowMultipleContexts = true. 
+ 
+ 解决  https://www.cnblogs.com/skyEva/p/5859742.html
+ 可能是因为sparkCONTEXT重复定义了

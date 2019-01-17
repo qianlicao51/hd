@@ -1,6 +1,7 @@
 package cn.zhuzi.spark;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SparkSession;
@@ -24,8 +25,7 @@ public class SparkUtils {
 		// TODO 创建SparkContext
 		// 的最基本方法，只需要传递2个参数https://www.cnblogs.com/Forever-Road/p/7351245.html
 		/**
-		 * 1:集群URL 告诉spark如何连接到集群上，这个实例中使用local，这个特殊的值可以让spark运行在
-		 * 单机单线程上而不需要连接到集群
+		 * 1:集群URL 告诉spark如何连接到集群上，这个实例中使用local，这个特殊的值可以让spark运行在 单机单线程上而不需要连接到集群
 		 * <p/>
 		 * 2:应用名：当连接到一个集群时，这个值可以帮助你在集群管理器的用户界面中找到你的应用
 		 */
@@ -33,7 +33,7 @@ public class SparkUtils {
 	}
 
 	private static void buildContext() {
-		conf = new SparkConf().setMaster("local").setAppName("sparkDemo");
+		conf = new SparkConf().setMaster("local").setAppName("sparkDemo").set("spark.driver.allowMultipleContexts", "true");
 		sc = new JavaSparkContext(conf);
 	}
 
@@ -90,5 +90,15 @@ public class SparkUtils {
 
 	public static void main(String[] args) {
 		buildSparkSession();
+	}
+
+	/**
+	 * SparkContext
+	 * 
+	 * @return
+	 */
+	public static SparkContext getSparkContext() {
+		SparkContext sparkContext = new SparkContext(conf);
+		return sparkContext;
 	}
 }
