@@ -23,7 +23,7 @@ public class Demo3calc {
     static JavaSparkContext sc = SparkUtils.getContext();
 
     public static void main(String[] args) {
-
+        // 测试GitHub提交
         calcMap();
     }
 
